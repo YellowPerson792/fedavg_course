@@ -18,6 +18,12 @@ For each round, the server sends the current global model to each client. Each c
 
 For example, if one Raspberry Pi has about 1000 local MNIST samples and `B=16, E=1`, it runs about `ceil(1000 / 16)` local mini-batch updates before one upload. It does not upload after every mini-batch.
 
+## Configuration Ownership
+
+`configs/pi_server.yaml` is the source of truth for experiment settings: dataset, model, `num_clients`, `batch_size`, `local_epochs`, seed, learning rate, partition, data limits, rounds, and run outputs.
+
+`configs/pi_client.yaml` intentionally stays small. It only tells a Raspberry Pi how to reach the server and which local device to use. When the server sends `GLOBAL_MODEL`, it also sends the training configuration used by the client for data loading, partitioning, model construction, and local training.
+
 ## Quick Start on Windows
 
 ```powershell
@@ -53,8 +59,8 @@ PC server for later Raspberry Pi deployment:
 Pi client command after synchronization:
 
 ```bash
-./scripts/start_pi_client.sh pi0 0
-./scripts/start_pi_client.sh pi1 1
+./scripts/start_pi_client.sh pi2 0
+./scripts/start_pi_client.sh pi3 1
 ```
 
 ## Protocol

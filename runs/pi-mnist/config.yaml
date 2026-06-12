@@ -6,15 +6,17 @@ batch_size: 16
 local_epochs: 1
 seed: 42
 device: cpu
-lr: 0.05
 partition:
   type: iid
   dirichlet_alpha: 0.3
-  quantity_ratios: [0.7, 0.3]
+  quantity_ratios:
+  - 0.7
+  - 0.3
 data:
-  synthetic: false
+  root: null
   train_limit: 10000
   test_limit: 1000
+  synthetic: false
 server:
   host: 0.0.0.0
   bind_host: 0.0.0.0
@@ -25,3 +27,4 @@ run:
   dir: runs
   name: pi-mnist
   save_every_round: true
+lr: 0.05
