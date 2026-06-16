@@ -1,20 +1,20 @@
 dataset: mnist
 model: tinycnn_mnist
-rounds: 2
+rounds: 10
 num_clients: 2
 batch_size: 16
 local_epochs: 1
 seed: 42
 device: cpu
 partition:
-  type: iid
+  type: dirichlet
   dirichlet_alpha: 0.3
   quantity_ratios:
   - 0.7
   - 0.3
 data:
   root: null
-  train_limit: 2000
+  train_limit: 10000
   test_limit: 1000
   synthetic: false
 server:
@@ -25,6 +25,6 @@ server:
   timeout_seconds: 900
 run:
   dir: runs
-  name: pi-mnist-demo
+  name: pi
   save_every_round: true
 lr: 0.05

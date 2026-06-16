@@ -5,17 +5,17 @@
 # Dataset options:
 #   mnist  -> use model tinycnn_mnist
 #   cifar10 -> use model dscnn_cifar or simplecnn_cifar
-dataset: cifar10
+dataset: mnist
 
 # Model options:
 #   tinycnn_mnist   -> lightweight CNN for MNIST
 #   dscnn_cifar     -> depthwise-separable CNN for CIFAR-10, Pi-friendly
 #   simplecnn_cifar -> larger plain CNN baseline for CIFAR-10
-model: dscnn_cifar
+model: tinycnn_mnist
 
 # Number of communication rounds. Each round sends the global model to every
 # client, waits for one local update from each client, then aggregates once.
-rounds: 20
+rounds: 10
 
 # Number of clients expected by the server. Client indexes must be 0..num_clients-1.
 num_clients: 2
@@ -43,7 +43,7 @@ lr: 0.05
 #   dirichlet     -> label-skew non-IID; smaller dirichlet_alpha means more skew
 #   quantity_skew -> same label distribution but different sample counts
 partition:
-  type: iid
+  type: dirichlet
   # Used only when type: dirichlet. Typical values: 0.1, 0.3, 1.0.
   dirichlet_alpha: 0.3
   # Used only when type: quantity_skew. Values are normalized if needed.

@@ -1,7 +1,0 @@
-round,phase,dataset,model,split,B,E,client_id,train_loss,global_loss,accuracy,macro_f1,train_time,eval_time,bytes_sent,bytes_recv,samples,status,pi_temp,pi_throttled
-1,train,mnist,tinycnn_mnist,iid,16,1,pi1,1.218340814889253,,,,8.725830940000378,,429797,429899,999,ok,temp=65.7'C,throttled=0x50005
-1,train,mnist,tinycnn_mnist,iid,16,1,pi0,1.3381619373342017,,,,6.971955299000001,,429797,430235,1001,ok,temp=38.9'C,throttled=0x50005
-1,eval,mnist,tinycnn_mnist,iid,16,1,server,,1.1599121799468994,0.614,0.5366939654420965,,0.34623179999834974,859594,860134,,,,
-2,train,mnist,tinycnn_mnist,iid,16,1,pi1,0.5285494086799679,,,,9.063496259001113,,859594,859615,999,ok,temp=66.7'C,throttled=0x50005
-2,train,mnist,tinycnn_mnist,iid,16,1,pi0,0.5111217463945413,,,,6.149247451000065,,859594,860285,1001,ok,temp=38.9'C,throttled=0x50005
-2,eval,mnist,tinycnn_mnist,iid,16,1,server,,0.3217977973371744,0.889,0.8881351056156017,,0.3070192000013776,1719188,1719900,,,,
