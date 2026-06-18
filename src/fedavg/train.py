@@ -32,7 +32,14 @@ def train_local(
     # 经典 FedAvg 用普通 SGD + momentum；不用 Adam 是为了与论文对齐 + 减少状态量。
     # 注意：动量 buffer 是"本地"状态，每轮新模型一来就会被新 optimizer 重置——
     # 这是 FedAvg 与 FedOpt 的差异点之一，不向服务器同步动量。
-    optimizer = torch.optim.SGD(model.parameters(), lr=float(config.get("lr", 0.05)), momentum=0.9)
+    lr = float(config.get("lr", 0.05))
+    momentum = float(config.get("momentum", 0.9))
+    weight_decay = float(config.get("weight_decay", 0.0))
+    opt_name = str(config.get("optimizer", "sgd")).lower()
+    if opt_name == "adam":
+        optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
+    else:
+        optimizer = torch.optim.SGD(model.parameters(), lr=lr, momentum=momentum, weight_decay=weight_decay)
     epochs = int(config.get("local_epochs", 1))   # FedAvg 论文中的 E
 
     total_loss = 0.0   # 用于算 epoch 平均训练 loss

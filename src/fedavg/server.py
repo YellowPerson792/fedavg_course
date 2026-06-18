@@ -229,6 +229,9 @@ def _client_visible_config(config: dict[str, Any]) -> dict[str, Any]:
         "local_epochs": config["local_epochs"],
         "seed": config["seed"],
         "lr": config.get("lr", 0.05),
+        "momentum": config.get("momentum", 0.9),
+        "weight_decay": config.get("weight_decay", 0.0),
+        "optimizer": config.get("optimizer", "sgd"),
         "partition": config["partition"],
         "data": config["data"],
     }
