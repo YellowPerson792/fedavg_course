@@ -1,0 +1,27 @@
+dataset: mnist
+model: tinycnn_mnist
+rounds: 1
+num_clients: 2
+batch_size: 16
+local_epochs: 1
+seed: 42
+device: cpu
+lr: 0.05
+partition:
+  type: iid
+  dirichlet_alpha: 0.3
+  quantity_ratios: [0.7, 0.3]
+data:
+  synthetic: false
+  train_limit: 64
+  test_limit: 32
+server:
+  host: 127.0.0.1
+  bind_host: 127.0.0.1
+  port: 9002
+  min_clients: 2
+  timeout_seconds: 180
+run:
+  dir: runs
+  name: smoke-mnist-hf
+  save_every_round: true

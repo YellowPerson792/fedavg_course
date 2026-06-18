@@ -1,0 +1,27 @@
+dataset: mnist
+model: tinycnn_mnist
+rounds: 20
+num_clients: 2
+batch_size: 16
+local_epochs: 1
+seed: 42
+device: cpu
+lr: 0.05
+partition:
+  type: iid
+  dirichlet_alpha: 0.3
+  quantity_ratios: [0.7, 0.3]
+data:
+  synthetic: false
+  train_limit:
+  test_limit:
+server:
+  host: 127.0.0.1
+  bind_host: 0.0.0.0
+  port: 9000
+  min_clients: 2
+  timeout_seconds: 600
+run:
+  dir: runs
+  name: mnist-iid-b16-e1
+  save_every_round: true

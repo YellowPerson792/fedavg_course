@@ -1,0 +1,6 @@
+# Client-local settings only. Training/data/model parameters come from the server.
+device: cpu
+server:
+  host: 192.168.137.1
+  port: 9000
+  timeout_seconds: 900

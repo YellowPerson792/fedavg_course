@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project outputs
+runs/
+checkpoints/
+*.pt
+*.pth
+
+# Metrics and figures (generated per run)
+metrics.csv
+metrics.jsonl
+figures/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment
+.env
