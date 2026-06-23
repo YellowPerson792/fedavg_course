@@ -27,7 +27,7 @@ checkpoints/
 *.pt
 *.pth
 
-# Metrics and figures (generated per run)
+# Metrics and figures (generated per run — keep only result/ for final archive)
 metrics.csv
 metrics.jsonl
 figures/
@@ -37,3 +37,21 @@ figures/
 
 # Environment
 .env
+
+# Datasets (HF cache — too large for GitHub)
+dataset_cifar10/
+dataset_cifar10_arrow/
+dataset_mnist/
+
+# Optuna sweeps (large DB + trial outputs)
+sweeps/
+
+# Claude internal data
+.claude/
+
+# Temp / working files
+pi_files/
+result.zip
+task.txt
+pi_test_resnet18.py
+final_report/

@@ -1,20 +1,19 @@
 """
-模型动物园：所有客户端 + 服务器都用这里的 build_model 拿到结构相同的实例。
+Model zoo — extended with torchvision CIFAR-10 wrappers for efficiency comparison.
 
-为什么模型放在共享模块里：
-  FedAvg 聚合要求所有客户端使用"完全一致的网络结构"——参数张量名、形状、dtype
-  必须逐一对齐，否则 fedavg() 里 zip(states, ...) 跨客户端按 key 累加就会出错。
-  把构造逻辑收敛到一个 build_model() 是最稳妥的做法。
+Original models:
+  - tinycnn_mnist, dscnn_cifar, simplecnn_cifar
 
-针对 Pi 4 的算力做了"小而精"的取舍：
-  - tinycnn_mnist : 体积小、收敛快，作为基线做完整对比矩阵。
-  - dscnn_cifar   : 用 depthwise-separable 卷积大幅压参，CIFAR 上仍跑得动。
-  - simplecnn_cifar: 朴素 VGG 风格，参数较多，作为对比基线。
+Torchvision wrappers (Phase 0/1/2 + Pi efficiency):
+  - squeezenet_cifar   (~1.2M params)
+  - mobilenetv3_cifar  (~2.5M params)
+  - resnet18_cifar     (~11.7M params)
 """
 
 from __future__ import annotations
 
 import torch
+import torchvision
 from torch import nn
 
 
@@ -129,12 +128,63 @@ class SimpleCNNCifar(nn.Module):
         return self.net(x)
 
 
-def build_model(name: str) -> nn.Module:
-    """按配置 (config['model']) 字符串实例化模型。
+# ── Torchvision CIFAR-10 wrappers ──────────────────────────────────
 
-    服务器和客户端都通过这个工厂函数拿模型，确保结构完全一致——
-    这是 FedAvg 加权平均能逐 key 对齐的前提。
-    """
+class SqueezeNetCifar(nn.Module):
+    """SqueezeNet 1.0 adapted for CIFAR-10 (32×32). ~1.2M params."""
+
+    def __init__(self, num_classes: int = 10) -> None:
+        super().__init__()
+        model = torchvision.models.squeezenet1_0(weights=None)
+        model.features[0] = nn.Conv2d(3, 96, kernel_size=3, stride=1, padding=1)
+        model.features[2] = nn.MaxPool2d(kernel_size=3, stride=1, padding=1)
+        model.classifier[1] = nn.Conv2d(512, num_classes, kernel_size=1)
+        self.model = model
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        return torch.flatten(self.model(x), 1)
+
+
+class MobileNetV3SmallCifar(nn.Module):
+    """MobileNetV3-Small adapted for CIFAR-10 (32×32). ~2.5M params."""
+
+    def __init__(self, num_classes: int = 10) -> None:
+        super().__init__()
+        model = torchvision.models.mobilenet_v3_small(weights=None)
+        old_conv = model.features[0][0]
+        model.features[0][0] = nn.Conv2d(
+            old_conv.in_channels, old_conv.out_channels,
+            kernel_size=old_conv.kernel_size,
+            stride=1, padding=old_conv.padding, bias=old_conv.bias,
+        )
+        in_features = model.classifier[-1].in_features
+        model.classifier[-1] = nn.Linear(in_features, num_classes)
+        self.model = model
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        return self.model(x)
+
+
+class ResNet18Cifar(nn.Module):
+    """ResNet-18 adapted for CIFAR-10 (32×32). ~11.7M params."""
+
+    def __init__(self, num_classes: int = 10) -> None:
+        super().__init__()
+        model = torchvision.models.resnet18(weights=None)
+        model.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1, bias=False)
+        model.maxpool = nn.Identity()
+        model.fc = nn.Linear(model.fc.in_features, num_classes)
+        self.model = model
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        return self.model(x)
+
+
+# ── Factory ────────────────────────────────────────────────────────
+
+def build_model(name: str) -> nn.Module:
+    """Build model by name. Server and all clients use this factory to ensure
+    identical architecture — required for FedAvg per-key weighted averaging."""
     name = name.lower()
     if name == "tinycnn_mnist":
         return TinyCNNMnist()
@@ -142,4 +192,10 @@ def build_model(name: str) -> nn.Module:
         return DSCNNCifar()
     if name == "simplecnn_cifar":
         return SimpleCNNCifar()
+    if name == "squeezenet_cifar":
+        return SqueezeNetCifar()
+    if name == "mobilenetv3_cifar":
+        return MobileNetV3SmallCifar()
+    if name == "resnet18_cifar":
+        return ResNet18Cifar()
     raise ValueError(f"unknown model: {name}")

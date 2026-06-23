@@ -50,7 +50,11 @@ def run_fedavg_local(config: dict[str, Any]) -> str:
     # --- Setup ---
     eval_loader = build_loader(data.test, int(config["batch_size"]), shuffle=False, seed=int(config["seed"]))
     model = build_model(config["model"]).to(device)
-    logger = RunLogger(config)
+    early_stop_patience = int(config["run"].get("early_stop_patience", 0))
+    early_stop_min_delta = float(config["run"].get("early_stop_min_delta", 0.001))
+    logger = RunLogger(config,
+                       early_stop_patience=early_stop_patience,
+                       early_stop_min_delta=early_stop_min_delta)
     _log(f"run directory: {logger.run_dir}")
 
     try:
@@ -104,6 +108,17 @@ def run_fedavg_local(config: dict[str, Any]) -> str:
             if config["run"].get("save_every_round", True):
                 logger.save_checkpoint(model.state_dict(), round_index)
             logger.plot_curves()
+
+            # --- Early stopping ---
+            logger.save_best(model.state_dict(), round_index, eval_metrics["accuracy"])
+            if logger.check_early_stop():
+                _log(
+                    f"early stopping at round {round_index}: "
+                    f"best accuracy={logger.best_accuracy:.4f} at round {logger.best_round}, "
+                    f"{logger.rounds_without_improvement} rounds without improvement "
+                    f"(patience={early_stop_patience})"
+                )
+                break
 
     finally:
         pass  # No sockets to close

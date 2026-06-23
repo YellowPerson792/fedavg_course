@@ -13,8 +13,17 @@ from __future__ import annotations
 import time
 from typing import Any
 
+import psutil
 import torch
 from torch import nn
+
+
+def _peak_rss_mb() -> float:
+    """Return current process RSS in MB. Returns 0.0 if psutil fails (e.g. Windows)."""
+    try:
+        return psutil.Process().memory_info().rss / (1024 * 1024)
+    except Exception:
+        return 0.0
 
 
 def train_local(
@@ -44,6 +53,7 @@ def train_local(
 
     total_loss = 0.0   # 用于算 epoch 平均训练 loss
     total_seen = 0     # 累计样本数（注意是按样本不是按 batch 加权）
+    peak_rss = _peak_rss_mb()  # 训练开始前的 RSS 作为初始峰值
     started = time.perf_counter()
 
     # 外层循环：在本地分区上重复 E 次完整遍历。
@@ -66,10 +76,16 @@ def train_local(
             total_loss += float(loss.item()) * batch_size
             total_seen += batch_size
 
+            # 每个 batch 后采样 RSS，追踪训练峰值内存
+            curr = _peak_rss_mb()
+            if curr > peak_rss:
+                peak_rss = curr
+
     elapsed = time.perf_counter() - started
     return {
         # 整次本地训练的样本加权平均 loss，反馈给服务器写入 metrics。
         "train_loss": total_loss / max(total_seen, 1),
         "train_time": elapsed,                       # 单位：秒，用来分析 Pi 的耗时
         "samples": float(total_seen),                # 服务器拿这个当 fedavg 的 n_k
+        "peak_memory_mb": peak_rss,                  # 训练期间进程峰值 RSS (MB)
     }

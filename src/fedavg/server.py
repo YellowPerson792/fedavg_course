@@ -113,6 +113,7 @@ def run_server(config: dict[str, Any]) -> str:
                         "train_loss": meta.get("train_loss", ""),
                         "train_time": meta.get("train_time", ""),
                         "samples": meta.get("samples", ""),
+                        "peak_memory_mb": meta.get("peak_memory_mb", ""),
                         "bytes_sent": client.bytes_sent,
                         "bytes_recv": client.bytes_recv,
                         "status": meta.get("status", "ok"),
