@@ -1,0 +1,10 @@
+criterion,threshold,B,E,run_name,value,final_acc,best_acc,best_round,reached_round,estimated_comm_mb,sync_time_s,local_updates_per_client_round,is_boundary_B,is_boundary_E,coverage_note,run_dir
+highest_final_acc,,64,4,mnist10k-iid-b64-e4-r20,0.989,0.989,0.99,7,,,,1252,yes,no,B at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e4-r20
+highest_best_acc,,64,4,mnist10k-iid-b64-e4-r20,0.99,0.989,0.99,7,,,,1252,yes,no,B at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e4-r20
+min_comm_to_threshold,0.95,64,8,mnist10k-iid-b64-e8-r20,1.638,0.984,0.988,5,1,1.638,12.048,5008,yes,yes,B at upper grid boundary; E at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e8-r20
+min_comm_to_threshold,0.96,64,8,mnist10k-iid-b64-e8-r20,1.638,0.984,0.988,5,1,1.638,12.048,5008,yes,yes,B at upper grid boundary; E at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e8-r20
+min_comm_to_threshold,0.97,64,2,mnist10k-iid-b64-e2-r20,3.277,0.984,0.986,8,2,3.277,7.229,314,yes,no,B at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e2-r20
+min_comm_to_threshold,0.975,64,2,mnist10k-iid-b64-e2-r20,3.277,0.984,0.986,8,2,3.277,7.229,314,yes,no,B at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e2-r20
+min_comm_to_threshold,0.98,64,8,mnist10k-iid-b64-e8-r20,3.277,0.984,0.988,5,2,3.277,24.282,5008,yes,yes,B at upper grid boundary; E at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e8-r20
+min_comm_to_threshold,0.985,64,8,mnist10k-iid-b64-e8-r20,4.915,0.984,0.988,5,3,4.915,36.739,5008,yes,yes,B at upper grid boundary; E at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e8-r20
+min_comm_to_threshold,0.99,64,4,mnist10k-iid-b64-e4-r20,11.468,0.989,0.99,7,7,11.468,44.321,1252,yes,no,B at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e4-r20

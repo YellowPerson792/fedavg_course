@@ -1,0 +1,85 @@
+threshold,comm_rank,B,E,run_name,reached_round,reached,estimated_comm_bytes_to_threshold,estimated_comm_mb_to_threshold,sync_time_to_threshold_s,final_acc,best_acc,best_round,local_updates_per_client_round,avg_sync_round_time_s,is_boundary_B,is_boundary_E,coverage_note,run_dir
+0.95,1,64,8,mnist10k-iid-b64-e8-r20,1,yes,1717888,1.638,12.048,0.984,0.988,5,5008,12.378,yes,yes,B at upper grid boundary; E at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e8-r20
+0.95,2,32,1,mnist10k-iid-b32-e1-r20,2,yes,3435776,3.277,4.216,0.978,0.979,14,157,2.19,no,yes,E at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b32-e1-r20
+0.95,3,64,1,mnist10k-iid-b64-e1-r20,2,yes,3435776,3.277,4.229,0.986,0.988,13,79,3.76,yes,yes,B at upper grid boundary; E at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e1-r20
+0.95,4,64,2,mnist10k-iid-b64-e2-r20,2,yes,3435776,3.277,7.229,0.984,0.986,8,314,3.561,yes,no,B at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e2-r20
+0.95,5,32,2,mnist10k-iid-b32-e2-r20,2,yes,3435776,3.277,7.937,0.984,0.984,13,626,4.102,no,no,interior grid point,runs\mnist_comm_sweep\mnist10k-iid-b32-e2-r20
+0.95,6,16,2,mnist10k-iid-b16-e2-r20,2,yes,3435776,3.277,10.24,0.978,0.981,16,1252,5.266,yes,no,B at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b16-e2-r20
+0.95,7,64,4,mnist10k-iid-b64-e4-r20,2,yes,3435776,3.277,12.848,0.989,0.99,7,1252,6.493,yes,no,B at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e4-r20
+0.95,8,32,4,mnist10k-iid-b32-e4-r20,2,yes,3435776,3.277,15.567,0.979,0.984,5,2504,7.89,no,no,interior grid point,runs\mnist_comm_sweep\mnist10k-iid-b32-e4-r20
+0.95,9,16,4,mnist10k-iid-b16-e4-r20,2,yes,3435776,3.277,19.943,0.975,0.979,10,5004,10.435,yes,no,B at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b16-e4-r20
+0.95,10,32,8,mnist10k-iid-b32-e8-r20,2,yes,3435776,3.277,32.818,0.981,0.983,4,10008,20.122,no,yes,E at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b32-e8-r20
+0.95,11,16,8,mnist10k-iid-b16-e8-r20,2,yes,3435776,3.277,41.322,0.98,0.982,5,20008,20.742,yes,yes,B at lower grid boundary; E at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b16-e8-r20
+0.95,12,16,1,mnist10k-iid-b16-e1-r20,3,yes,5153664,4.915,8.757,0.967,0.98,18,313,2.757,yes,yes,B at lower grid boundary; E at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b16-e1-r20
+0.96,1,64,8,mnist10k-iid-b64-e8-r20,1,yes,1717888,1.638,12.048,0.984,0.988,5,5008,12.378,yes,yes,B at upper grid boundary; E at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e8-r20
+0.96,2,32,1,mnist10k-iid-b32-e1-r20,2,yes,3435776,3.277,4.216,0.978,0.979,14,157,2.19,no,yes,E at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b32-e1-r20
+0.96,3,64,1,mnist10k-iid-b64-e1-r20,2,yes,3435776,3.277,4.229,0.986,0.988,13,79,3.76,yes,yes,B at upper grid boundary; E at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e1-r20
+0.96,4,64,2,mnist10k-iid-b64-e2-r20,2,yes,3435776,3.277,7.229,0.984,0.986,8,314,3.561,yes,no,B at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e2-r20
+0.96,5,32,2,mnist10k-iid-b32-e2-r20,2,yes,3435776,3.277,7.937,0.984,0.984,13,626,4.102,no,no,interior grid point,runs\mnist_comm_sweep\mnist10k-iid-b32-e2-r20
+0.96,6,16,2,mnist10k-iid-b16-e2-r20,2,yes,3435776,3.277,10.24,0.978,0.981,16,1252,5.266,yes,no,B at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b16-e2-r20
+0.96,7,64,4,mnist10k-iid-b64-e4-r20,2,yes,3435776,3.277,12.848,0.989,0.99,7,1252,6.493,yes,no,B at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e4-r20
+0.96,8,32,4,mnist10k-iid-b32-e4-r20,2,yes,3435776,3.277,15.567,0.979,0.984,5,2504,7.89,no,no,interior grid point,runs\mnist_comm_sweep\mnist10k-iid-b32-e4-r20
+0.96,9,32,8,mnist10k-iid-b32-e8-r20,2,yes,3435776,3.277,32.818,0.981,0.983,4,10008,20.122,no,yes,E at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b32-e8-r20
+0.96,10,16,8,mnist10k-iid-b16-e8-r20,2,yes,3435776,3.277,41.322,0.98,0.982,5,20008,20.742,yes,yes,B at lower grid boundary; E at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b16-e8-r20
+0.96,11,16,4,mnist10k-iid-b16-e4-r20,3,yes,5153664,4.915,29.93,0.975,0.979,10,5004,10.435,yes,no,B at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b16-e4-r20
+0.96,12,16,1,mnist10k-iid-b16-e1-r20,5,yes,8589440,8.192,14.196,0.967,0.98,18,313,2.757,yes,yes,B at lower grid boundary; E at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b16-e1-r20
+0.97,1,64,2,mnist10k-iid-b64-e2-r20,2,yes,3435776,3.277,7.229,0.984,0.986,8,314,3.561,yes,no,B at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e2-r20
+0.97,2,64,4,mnist10k-iid-b64-e4-r20,2,yes,3435776,3.277,12.848,0.989,0.99,7,1252,6.493,yes,no,B at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e4-r20
+0.97,3,32,4,mnist10k-iid-b32-e4-r20,2,yes,3435776,3.277,15.567,0.979,0.984,5,2504,7.89,no,no,interior grid point,runs\mnist_comm_sweep\mnist10k-iid-b32-e4-r20
+0.97,4,64,8,mnist10k-iid-b64-e8-r20,2,yes,3435776,3.277,24.282,0.984,0.988,5,5008,12.378,yes,yes,B at upper grid boundary; E at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e8-r20
+0.97,5,32,8,mnist10k-iid-b32-e8-r20,2,yes,3435776,3.277,32.818,0.981,0.983,4,10008,20.122,no,yes,E at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b32-e8-r20
+0.97,6,16,8,mnist10k-iid-b16-e8-r20,2,yes,3435776,3.277,41.322,0.98,0.982,5,20008,20.742,yes,yes,B at lower grid boundary; E at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b16-e8-r20
+0.97,7,32,2,mnist10k-iid-b32-e2-r20,3,yes,5153664,4.915,12.13,0.984,0.984,13,626,4.102,no,no,interior grid point,runs\mnist_comm_sweep\mnist10k-iid-b32-e2-r20
+0.97,8,32,1,mnist10k-iid-b32-e1-r20,4,yes,6871552,6.553,8.45,0.978,0.979,14,157,2.19,no,yes,E at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b32-e1-r20
+0.97,9,64,1,mnist10k-iid-b64-e1-r20,4,yes,6871552,6.553,8.853,0.986,0.988,13,79,3.76,yes,yes,B at upper grid boundary; E at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e1-r20
+0.97,10,16,2,mnist10k-iid-b16-e2-r20,4,yes,6871552,6.553,21.69,0.978,0.981,16,1252,5.266,yes,no,B at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b16-e2-r20
+0.97,11,16,1,mnist10k-iid-b16-e1-r20,6,yes,10307328,9.83,16.999,0.967,0.98,18,313,2.757,yes,yes,B at lower grid boundary; E at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b16-e1-r20
+0.97,12,16,4,mnist10k-iid-b16-e4-r20,6,yes,10307328,9.83,59.988,0.975,0.979,10,5004,10.435,yes,no,B at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b16-e4-r20
+0.975,1,64,2,mnist10k-iid-b64-e2-r20,2,yes,3435776,3.277,7.229,0.984,0.986,8,314,3.561,yes,no,B at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e2-r20
+0.975,2,64,4,mnist10k-iid-b64-e4-r20,2,yes,3435776,3.277,12.848,0.989,0.99,7,1252,6.493,yes,no,B at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e4-r20
+0.975,3,64,8,mnist10k-iid-b64-e8-r20,2,yes,3435776,3.277,24.282,0.984,0.988,5,5008,12.378,yes,yes,B at upper grid boundary; E at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e8-r20
+0.975,4,32,8,mnist10k-iid-b32-e8-r20,2,yes,3435776,3.277,32.818,0.981,0.983,4,10008,20.122,no,yes,E at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b32-e8-r20
+0.975,5,32,4,mnist10k-iid-b32-e4-r20,3,yes,5153664,4.915,23.463,0.979,0.984,5,2504,7.89,no,no,interior grid point,runs\mnist_comm_sweep\mnist10k-iid-b32-e4-r20
+0.975,6,64,1,mnist10k-iid-b64-e1-r20,4,yes,6871552,6.553,8.853,0.986,0.988,13,79,3.76,yes,yes,B at upper grid boundary; E at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e1-r20
+0.975,7,32,2,mnist10k-iid-b32-e2-r20,4,yes,6871552,6.553,16.219,0.984,0.984,13,626,4.102,no,no,interior grid point,runs\mnist_comm_sweep\mnist10k-iid-b32-e2-r20
+0.975,8,16,8,mnist10k-iid-b16-e8-r20,4,yes,6871552,6.553,82.028,0.98,0.982,5,20008,20.742,yes,yes,B at lower grid boundary; E at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b16-e8-r20
+0.975,9,32,1,mnist10k-iid-b32-e1-r20,6,yes,10307328,9.83,12.88,0.978,0.979,14,157,2.19,no,yes,E at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b32-e1-r20
+0.975,10,16,1,mnist10k-iid-b16-e1-r20,7,yes,12025216,11.468,20.071,0.967,0.98,18,313,2.757,yes,yes,B at lower grid boundary; E at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b16-e1-r20
+0.975,11,16,2,mnist10k-iid-b16-e2-r20,9,yes,15460992,14.745,47.542,0.978,0.981,16,1252,5.266,yes,no,B at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b16-e2-r20
+0.975,12,16,4,mnist10k-iid-b16-e4-r20,10,yes,17178880,16.383,101.061,0.975,0.979,10,5004,10.435,yes,no,B at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b16-e4-r20
+0.98,1,64,8,mnist10k-iid-b64-e8-r20,2,yes,3435776,3.277,24.282,0.984,0.988,5,5008,12.378,yes,yes,B at upper grid boundary; E at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e8-r20
+0.98,2,32,4,mnist10k-iid-b32-e4-r20,3,yes,5153664,4.915,23.463,0.979,0.984,5,2504,7.89,no,no,interior grid point,runs\mnist_comm_sweep\mnist10k-iid-b32-e4-r20
+0.98,3,64,1,mnist10k-iid-b64-e1-r20,4,yes,6871552,6.553,8.853,0.986,0.988,13,79,3.76,yes,yes,B at upper grid boundary; E at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e1-r20
+0.98,4,64,2,mnist10k-iid-b64-e2-r20,4,yes,6871552,6.553,14.494,0.984,0.986,8,314,3.561,yes,no,B at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e2-r20
+0.98,5,64,4,mnist10k-iid-b64-e4-r20,4,yes,6871552,6.553,25.464,0.989,0.99,7,1252,6.493,yes,no,B at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e4-r20
+0.98,6,32,8,mnist10k-iid-b32-e8-r20,4,yes,6871552,6.553,64.482,0.981,0.983,4,10008,20.122,no,yes,E at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b32-e8-r20
+0.98,7,16,8,mnist10k-iid-b16-e8-r20,5,yes,8589440,8.192,102.673,0.98,0.982,5,20008,20.742,yes,yes,B at lower grid boundary; E at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b16-e8-r20
+0.98,8,32,2,mnist10k-iid-b32-e2-r20,9,yes,15460992,14.745,36.896,0.984,0.984,13,626,4.102,no,no,interior grid point,runs\mnist_comm_sweep\mnist10k-iid-b32-e2-r20
+0.98,9,16,2,mnist10k-iid-b16-e2-r20,16,yes,27486208,26.213,84.285,0.978,0.981,16,1252,5.266,yes,no,B at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b16-e2-r20
+0.98,10,16,1,mnist10k-iid-b16-e1-r20,18,yes,30921984,29.49,49.797,0.967,0.98,18,313,2.757,yes,yes,B at lower grid boundary; E at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b16-e1-r20
+0.98,,16,4,mnist10k-iid-b16-e4-r20,,no,,,,0.975,0.979,10,5004,10.435,yes,no,B at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b16-e4-r20
+0.98,,32,1,mnist10k-iid-b32-e1-r20,,no,,,,0.978,0.979,14,157,2.19,no,yes,E at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b32-e1-r20
+0.985,1,64,8,mnist10k-iid-b64-e8-r20,3,yes,5153664,4.915,36.739,0.984,0.988,5,5008,12.378,yes,yes,B at upper grid boundary; E at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e8-r20
+0.985,2,64,2,mnist10k-iid-b64-e2-r20,5,yes,8589440,8.192,18.147,0.984,0.986,8,314,3.561,yes,no,B at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e2-r20
+0.985,3,64,4,mnist10k-iid-b64-e4-r20,5,yes,8589440,8.192,31.662,0.989,0.99,7,1252,6.493,yes,no,B at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e4-r20
+0.985,4,64,1,mnist10k-iid-b64-e1-r20,10,yes,17178880,16.383,21.462,0.986,0.988,13,79,3.76,yes,yes,B at upper grid boundary; E at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e1-r20
+0.985,,16,1,mnist10k-iid-b16-e1-r20,,no,,,,0.967,0.98,18,313,2.757,yes,yes,B at lower grid boundary; E at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b16-e1-r20
+0.985,,16,2,mnist10k-iid-b16-e2-r20,,no,,,,0.978,0.981,16,1252,5.266,yes,no,B at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b16-e2-r20
+0.985,,16,4,mnist10k-iid-b16-e4-r20,,no,,,,0.975,0.979,10,5004,10.435,yes,no,B at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b16-e4-r20
+0.985,,16,8,mnist10k-iid-b16-e8-r20,,no,,,,0.98,0.982,5,20008,20.742,yes,yes,B at lower grid boundary; E at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b16-e8-r20
+0.985,,32,1,mnist10k-iid-b32-e1-r20,,no,,,,0.978,0.979,14,157,2.19,no,yes,E at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b32-e1-r20
+0.985,,32,2,mnist10k-iid-b32-e2-r20,,no,,,,0.984,0.984,13,626,4.102,no,no,interior grid point,runs\mnist_comm_sweep\mnist10k-iid-b32-e2-r20
+0.985,,32,4,mnist10k-iid-b32-e4-r20,,no,,,,0.979,0.984,5,2504,7.89,no,no,interior grid point,runs\mnist_comm_sweep\mnist10k-iid-b32-e4-r20
+0.985,,32,8,mnist10k-iid-b32-e8-r20,,no,,,,0.981,0.983,4,10008,20.122,no,yes,E at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b32-e8-r20
+0.99,1,64,4,mnist10k-iid-b64-e4-r20,7,yes,12025216,11.468,44.321,0.989,0.99,7,1252,6.493,yes,no,B at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e4-r20
+0.99,,16,1,mnist10k-iid-b16-e1-r20,,no,,,,0.967,0.98,18,313,2.757,yes,yes,B at lower grid boundary; E at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b16-e1-r20
+0.99,,16,2,mnist10k-iid-b16-e2-r20,,no,,,,0.978,0.981,16,1252,5.266,yes,no,B at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b16-e2-r20
+0.99,,16,4,mnist10k-iid-b16-e4-r20,,no,,,,0.975,0.979,10,5004,10.435,yes,no,B at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b16-e4-r20
+0.99,,16,8,mnist10k-iid-b16-e8-r20,,no,,,,0.98,0.982,5,20008,20.742,yes,yes,B at lower grid boundary; E at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b16-e8-r20
+0.99,,32,1,mnist10k-iid-b32-e1-r20,,no,,,,0.978,0.979,14,157,2.19,no,yes,E at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b32-e1-r20
+0.99,,32,2,mnist10k-iid-b32-e2-r20,,no,,,,0.984,0.984,13,626,4.102,no,no,interior grid point,runs\mnist_comm_sweep\mnist10k-iid-b32-e2-r20
+0.99,,32,4,mnist10k-iid-b32-e4-r20,,no,,,,0.979,0.984,5,2504,7.89,no,no,interior grid point,runs\mnist_comm_sweep\mnist10k-iid-b32-e4-r20
+0.99,,32,8,mnist10k-iid-b32-e8-r20,,no,,,,0.981,0.983,4,10008,20.122,no,yes,E at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b32-e8-r20
+0.99,,64,1,mnist10k-iid-b64-e1-r20,,no,,,,0.986,0.988,13,79,3.76,yes,yes,B at upper grid boundary; E at lower grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e1-r20
+0.99,,64,2,mnist10k-iid-b64-e2-r20,,no,,,,0.984,0.986,8,314,3.561,yes,no,B at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e2-r20
+0.99,,64,8,mnist10k-iid-b64-e8-r20,,no,,,,0.984,0.988,5,5008,12.378,yes,yes,B at upper grid boundary; E at upper grid boundary,runs\mnist_comm_sweep\mnist10k-iid-b64-e8-r20

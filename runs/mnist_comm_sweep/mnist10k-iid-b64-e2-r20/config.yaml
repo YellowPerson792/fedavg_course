@@ -1,0 +1,38 @@
+dataset: mnist
+model: tinycnn_mnist
+rounds: 20
+num_clients: 2
+batch_size: 64
+local_epochs: 2
+seed: 42
+device: cpu
+lr: 0.05
+momentum: 0.9
+weight_decay: 0.0
+optimizer: sgd
+partition:
+  type: iid
+  dirichlet_alpha: 0.3
+  quantity_ratios:
+  - 0.7
+  - 0.3
+data:
+  root: null
+  train_limit: 10000
+  test_limit: 1000
+  synthetic: false
+server:
+  host: 127.0.0.1
+  bind_host: 127.0.0.1
+  port: 9000
+  min_clients: 2
+  timeout_seconds: 600
+run:
+  dir: runs\mnist_comm_sweep
+  name: mnist10k-iid-b64-e2-r20
+  save_every_round: false
+  save_best_model: false
+  early_stop_patience: 0
+  early_stop_min_delta: 0.001
+  low_accuracy_stop_rounds: 5
+  low_accuracy_min_acc: 0.2

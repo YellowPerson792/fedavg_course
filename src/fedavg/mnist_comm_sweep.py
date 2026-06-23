@@ -18,6 +18,7 @@ DEFAULT_B_VALUES = [16, 32, 64]
 DEFAULT_E_VALUES = [1, 2, 4, 8]
 BASELINE_B = 16
 BASELINE_E = 1
+DEFAULT_THRESHOLDS = [0.95, 0.96, 0.97, 0.975, 0.98, 0.985, 0.99]
 
 
 SUMMARY_FIELDS = [
@@ -48,6 +49,48 @@ SUMMARY_FIELDS = [
     "run_dir",
 ]
 
+THRESHOLD_FIELDS = [
+    "threshold",
+    "comm_rank",
+    "B",
+    "E",
+    "run_name",
+    "reached_round",
+    "reached",
+    "estimated_comm_bytes_to_threshold",
+    "estimated_comm_mb_to_threshold",
+    "sync_time_to_threshold_s",
+    "final_acc",
+    "best_acc",
+    "best_round",
+    "local_updates_per_client_round",
+    "avg_sync_round_time_s",
+    "is_boundary_B",
+    "is_boundary_E",
+    "coverage_note",
+    "run_dir",
+]
+
+OPTIMUM_FIELDS = [
+    "criterion",
+    "threshold",
+    "B",
+    "E",
+    "run_name",
+    "value",
+    "final_acc",
+    "best_acc",
+    "best_round",
+    "reached_round",
+    "estimated_comm_mb",
+    "sync_time_s",
+    "local_updates_per_client_round",
+    "is_boundary_B",
+    "is_boundary_E",
+    "coverage_note",
+    "run_dir",
+]
+
 
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(
@@ -65,6 +108,9 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--e-values", default=",".join(str(v) for v in DEFAULT_E_VALUES))
     parser.add_argument("--run-dir", default="runs/mnist_comm_sweep")
     parser.add_argument("--summary-path", default="result/mnist_comm_sweep_summary.csv")
+    parser.add_argument("--threshold-summary-path", default="result/mnist_comm_sweep_thresholds.csv")
+    parser.add_argument("--optima-path", default="result/mnist_comm_sweep_optima.csv")
+    parser.add_argument("--thresholds", default=",".join(str(v) for v in DEFAULT_THRESHOLDS))
     parser.add_argument("--tolerance-pp", type=float, default=1.0)
     parser.add_argument("--bad-run-check-rounds", type=int, default=5)
     parser.add_argument("--bad-run-min-acc", type=float, default=0.2)
@@ -88,6 +134,10 @@ def main(argv: list[str] | None = None) -> None:
     run_root = Path(args.run_dir)
     summary_path = Path(args.summary_path)
     summary_path.parent.mkdir(parents=True, exist_ok=True)
+    threshold_summary_path = Path(args.threshold_summary_path)
+    threshold_summary_path.parent.mkdir(parents=True, exist_ok=True)
+    optima_path = Path(args.optima_path)
+    optima_path.parent.mkdir(parents=True, exist_ok=True)
 
     _log(f"jobs={len(jobs)} rounds={args.rounds} train_limit={args.train_limit} test_limit={args.test_limit}")
     for index, (batch_size, local_epochs) in enumerate(jobs, start=1):
@@ -108,7 +158,12 @@ def main(argv: list[str] | None = None) -> None:
 
     rows = _collect_rows(jobs, args, run_root)
     _write_summary(rows, summary_path)
-    _print_recommendation(rows, summary_path)
+    thresholds = _parse_float_list(args.thresholds)
+    threshold_rows = _build_threshold_rows(rows, thresholds, b_values, e_values)
+    optima_rows = _build_optima_rows(rows, threshold_rows, b_values, e_values)
+    _write_threshold_summary(threshold_rows, threshold_summary_path)
+    _write_optima(optima_rows, optima_path)
+    _print_recommendation(rows, summary_path, threshold_summary_path, optima_path)
 
 
 def _build_config(
@@ -185,8 +240,8 @@ def _collect_rows(
     target_acc = baseline_best - float(args.tolerance_pp) / 100.0
 
     for row in by_pair.values():
-        eval_accs = row.pop("_eval_accs")
-        sync_times = row.pop("_sync_times")
+        eval_accs = row["_eval_accs"]
+        sync_times = row["_sync_times"]
         target_round = _first_round_at_or_above(eval_accs, target_acc)
         row["baseline_best_acc"] = _fmt_float(baseline_best)
         row["target_acc"] = _fmt_float(target_acc)
@@ -241,6 +296,185 @@ def _collect_rows(
             int(row["E"]),
         ),
     )
+
+
+def _build_threshold_rows(
+    rows: list[dict[str, Any]],
+    thresholds: list[float],
+    b_values: list[int],
+    e_values: list[int],
+) -> list[dict[str, Any]]:
+    output: list[dict[str, Any]] = []
+    for threshold in thresholds:
+        threshold_rows: list[dict[str, Any]] = []
+        for row in rows:
+            eval_accs = row["_eval_accs"]
+            sync_times = row["_sync_times"]
+            reached_round = _first_round_at_or_above(eval_accs, threshold)
+            threshold_row = {
+                "threshold": _fmt_float(threshold),
+                "B": row["B"],
+                "E": row["E"],
+                "run_name": row["run_name"],
+                "reached_round": reached_round or "",
+                "reached": "yes" if reached_round else "no",
+                "estimated_comm_bytes_to_threshold": "",
+                "estimated_comm_mb_to_threshold": "",
+                "sync_time_to_threshold_s": "",
+                "final_acc": row["final_acc"],
+                "best_acc": row["best_acc"],
+                "best_round": row["best_round"],
+                "local_updates_per_client_round": row["local_updates_per_client_round"],
+                "avg_sync_round_time_s": row["avg_sync_round_time_s"],
+                "run_dir": row["run_dir"],
+            }
+            _add_coverage_fields(threshold_row, b_values, e_values)
+            if reached_round:
+                comm_bytes = int(row["estimated_comm_bytes_per_round"]) * reached_round
+                threshold_row["estimated_comm_bytes_to_threshold"] = comm_bytes
+                threshold_row["estimated_comm_mb_to_threshold"] = _fmt_float(comm_bytes / (1024 * 1024), 3)
+                threshold_row["sync_time_to_threshold_s"] = _fmt_float(sum(sync_times[:reached_round]), 3)
+            threshold_rows.append(threshold_row)
+
+        reached = [row for row in threshold_rows if row["reached"] == "yes"]
+        reached.sort(
+            key=lambda row: (
+                int(row["estimated_comm_bytes_to_threshold"]),
+                float(row["sync_time_to_threshold_s"]),
+                -float(row["final_acc"]),
+            )
+        )
+        for rank, row in enumerate(reached, start=1):
+            row["comm_rank"] = rank
+        for row in threshold_rows:
+            row.setdefault("comm_rank", "")
+        output.extend(
+            sorted(
+                threshold_rows,
+                key=lambda row: (
+                    row["comm_rank"] == "",
+                    int(row["comm_rank"] or 9999),
+                    int(row["B"]),
+                    int(row["E"]),
+                ),
+            )
+        )
+    return output
+
+
+def _build_optima_rows(
+    rows: list[dict[str, Any]],
+    threshold_rows: list[dict[str, Any]],
+    b_values: list[int],
+    e_values: list[int],
+) -> list[dict[str, Any]]:
+    optima: list[dict[str, Any]] = []
+
+    best_final = max(rows, key=lambda row: (float(row["final_acc"]), float(row["best_acc"])))
+    optima.append(_optimum_from_summary("highest_final_acc", "", best_final, best_final["final_acc"], b_values, e_values))
+
+    best_peak = max(rows, key=lambda row: (float(row["best_acc"]), float(row["final_acc"])))
+    optima.append(_optimum_from_summary("highest_best_acc", "", best_peak, best_peak["best_acc"], b_values, e_values))
+
+    thresholds = sorted({row["threshold"] for row in threshold_rows}, key=float)
+    for threshold in thresholds:
+        candidates = [
+            row for row in threshold_rows
+            if row["threshold"] == threshold and row["reached"] == "yes"
+        ]
+        if not candidates:
+            optima.append(
+                {
+                    "criterion": "min_comm_to_threshold",
+                    "threshold": threshold,
+                    "coverage_note": "no configuration reached this threshold",
+                }
+            )
+            continue
+        best_comm = min(
+            candidates,
+            key=lambda row: (
+                int(row["estimated_comm_bytes_to_threshold"]),
+                float(row["sync_time_to_threshold_s"]),
+                -float(row["final_acc"]),
+            ),
+        )
+        optima.append(_optimum_from_threshold(threshold, best_comm, b_values, e_values))
+
+    return optima
+
+
+def _optimum_from_summary(
+    criterion: str,
+    threshold: str,
+    row: dict[str, Any],
+    value: Any,
+    b_values: list[int],
+    e_values: list[int],
+) -> dict[str, Any]:
+    optimum = {
+        "criterion": criterion,
+        "threshold": threshold,
+        "B": row["B"],
+        "E": row["E"],
+        "run_name": row["run_name"],
+        "value": value,
+        "final_acc": row["final_acc"],
+        "best_acc": row["best_acc"],
+        "best_round": row["best_round"],
+        "reached_round": "",
+        "estimated_comm_mb": "",
+        "sync_time_s": "",
+        "local_updates_per_client_round": row["local_updates_per_client_round"],
+        "run_dir": row["run_dir"],
+    }
+    _add_coverage_fields(optimum, b_values, e_values)
+    return optimum
+
+
+def _optimum_from_threshold(
+    threshold: str,
+    row: dict[str, Any],
+    b_values: list[int],
+    e_values: list[int],
+) -> dict[str, Any]:
+    optimum = {
+        "criterion": "min_comm_to_threshold",
+        "threshold": threshold,
+        "B": row["B"],
+        "E": row["E"],
+        "run_name": row["run_name"],
+        "value": row["estimated_comm_mb_to_threshold"],
+        "final_acc": row["final_acc"],
+        "best_acc": row["best_acc"],
+        "best_round": row["best_round"],
+        "reached_round": row["reached_round"],
+        "estimated_comm_mb": row["estimated_comm_mb_to_threshold"],
+        "sync_time_s": row["sync_time_to_threshold_s"],
+        "local_updates_per_client_round": row["local_updates_per_client_round"],
+        "run_dir": row["run_dir"],
+    }
+    _add_coverage_fields(optimum, b_values, e_values)
+    return optimum
+
+
+def _add_coverage_fields(row: dict[str, Any], b_values: list[int], e_values: list[int]) -> None:
+    batch_size = int(row["B"]) if row.get("B") not in ("", None) else None
+    local_epochs = int(row["E"]) if row.get("E") not in ("", None) else None
+    is_boundary_b = batch_size in {min(b_values), max(b_values)} if batch_size is not None else False
+    is_boundary_e = local_epochs in {min(e_values), max(e_values)} if local_epochs is not None else False
+    notes: list[str] = []
+    if batch_size == min(b_values):
+        notes.append("B at lower grid boundary")
+    if batch_size == max(b_values):
+        notes.append("B at upper grid boundary")
+    if local_epochs == min(e_values):
+        notes.append("E at lower grid boundary")
+    if local_epochs == max(e_values):
+        notes.append("E at upper grid boundary")
+    row["is_boundary_B"] = "yes" if is_boundary_b else "no"
+    row["is_boundary_E"] = "yes" if is_boundary_e else "no"
+    row["coverage_note"] = "; ".join(notes) if notes else "interior grid point"
 
 
 def _summarize_run(
@@ -322,8 +556,31 @@ def _write_summary(rows: list[dict[str, Any]], summary_path: Path) -> None:
             writer.writerow(row)
 
 
-def _print_recommendation(rows: list[dict[str, Any]], summary_path: Path) -> None:
+def _write_threshold_summary(rows: list[dict[str, Any]], threshold_summary_path: Path) -> None:
+    with threshold_summary_path.open("w", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=THRESHOLD_FIELDS, extrasaction="ignore")
+        writer.writeheader()
+        for row in rows:
+            writer.writerow(row)
+
+
+def _write_optima(rows: list[dict[str, Any]], optima_path: Path) -> None:
+    with optima_path.open("w", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=OPTIMUM_FIELDS, extrasaction="ignore")
+        writer.writeheader()
+        for row in rows:
+            writer.writerow(row)
+
+
+def _print_recommendation(
+    rows: list[dict[str, Any]],
+    summary_path: Path,
+    threshold_summary_path: Path,
+    optima_path: Path,
+) -> None:
     print(f"summary={summary_path}", flush=True)
+    print(f"threshold_summary={threshold_summary_path}", flush=True)
+    print(f"optima={optima_path}", flush=True)
     ranked = [row for row in rows if row.get("recommended_rank") == 1]
     if not ranked:
         print("recommendation=none", flush=True)
@@ -369,6 +626,13 @@ def _parse_int_list(value: str) -> list[int]:
     parsed = [int(part.strip()) for part in value.split(",") if part.strip()]
     if not parsed:
         raise ValueError("expected at least one integer")
+    return parsed
+
+
+def _parse_float_list(value: str) -> list[float]:
+    parsed = [float(part.strip()) for part in value.split(",") if part.strip()]
+    if not parsed:
+        raise ValueError("expected at least one float")
     return parsed
 
 

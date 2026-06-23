@@ -1,0 +1,13 @@
+recommended_rank,B,E,run_name,rounds_completed,samples_per_client,local_updates_per_client_round,avg_local_updates_per_client_round,final_acc,best_acc,best_round,baseline_best_acc,target_acc,target_reached_round,final_within_1pp,model_payload_bytes,estimated_comm_bytes_per_round,estimated_comm_bytes_to_target,estimated_comm_mb_to_target,comm_rounds_saved_vs_baseline,comm_mb_saved_vs_baseline,avg_client_train_time_s,avg_sync_round_time_s,sync_time_to_target_s,run_dir
+1,64,2,mnist10k-iid-b64-e2-r20,20,10004;9996,314,314,0.984,0.986,8,0.98,0.97,2,yes,429472,1717888,3435776,3.277,4,6.553,3.246,3.561,7.229,runs\mnist_comm_sweep\mnist10k-iid-b64-e2-r20
+2,64,4,mnist10k-iid-b64-e4-r20,20,20008;19992,1252,1252,0.989,0.99,7,0.98,0.97,2,yes,429472,1717888,3435776,3.277,4,6.553,6.126,6.493,12.848,runs\mnist_comm_sweep\mnist10k-iid-b64-e4-r20
+3,32,4,mnist10k-iid-b32-e4-r20,20,20008;19992,2504,2502,0.979,0.984,5,0.98,0.97,2,yes,429472,1717888,3435776,3.277,4,6.553,7.591,7.89,15.567,runs\mnist_comm_sweep\mnist10k-iid-b32-e4-r20
+4,64,8,mnist10k-iid-b64-e8-r20,20,40016;39984,5008,5004,0.984,0.988,5,0.98,0.97,2,yes,429472,1717888,3435776,3.277,4,6.553,12.057,12.378,24.282,runs\mnist_comm_sweep\mnist10k-iid-b64-e8-r20
+5,32,8,mnist10k-iid-b32-e8-r20,20,40016;39984,10008,10004,0.981,0.983,4,0.98,0.97,2,yes,429472,1717888,3435776,3.277,4,6.553,17.914,20.122,32.818,runs\mnist_comm_sweep\mnist10k-iid-b32-e8-r20
+6,16,8,mnist10k-iid-b16-e8-r20,20,40016;39984,20008,20000,0.98,0.982,5,0.98,0.97,2,yes,429472,1717888,3435776,3.277,4,6.553,20.249,20.742,41.322,runs\mnist_comm_sweep\mnist10k-iid-b16-e8-r20
+7,32,2,mnist10k-iid-b32-e2-r20,20,10004;9996,626,626,0.984,0.984,13,0.98,0.97,3,yes,429472,1717888,5153664,4.915,3,4.915,3.797,4.102,12.13,runs\mnist_comm_sweep\mnist10k-iid-b32-e2-r20
+8,32,1,mnist10k-iid-b32-e1-r20,20,5002;4998,157,157,0.978,0.979,14,0.98,0.97,4,yes,429472,1717888,6871552,6.553,2,3.277,1.901,2.19,8.45,runs\mnist_comm_sweep\mnist10k-iid-b32-e1-r20
+9,64,1,mnist10k-iid-b64-e1-r20,20,5002;4998,79,79,0.986,0.988,13,0.98,0.97,4,yes,429472,1717888,6871552,6.553,2,3.277,3.189,3.76,8.853,runs\mnist_comm_sweep\mnist10k-iid-b64-e1-r20
+10,16,2,mnist10k-iid-b16-e2-r20,20,10004;9996,1252,1251,0.978,0.981,16,0.98,0.97,4,yes,429472,1717888,6871552,6.553,2,3.277,4.898,5.266,21.69,runs\mnist_comm_sweep\mnist10k-iid-b16-e2-r20
+11,16,4,mnist10k-iid-b16-e4-r20,20,20008;19992,5004,5002,0.975,0.979,10,0.98,0.97,6,yes,429472,1717888,10307328,9.83,0,0,9.979,10.435,59.988,runs\mnist_comm_sweep\mnist10k-iid-b16-e4-r20
+,16,1,mnist10k-iid-b16-e1-r20,20,5002;4998,313,313,0.967,0.98,18,0.98,0.97,6,no,429472,1717888,10307328,9.83,0,0,2.405,2.757,16.999,runs\mnist_comm_sweep\mnist10k-iid-b16-e1-r20
