@@ -33,6 +33,7 @@ METRIC_FIELDS = [
     "bytes_sent",
     "bytes_recv",
     "samples",
+    "peak_memory_mb",
     "status",
     "pi_temp",
     "pi_throttled",

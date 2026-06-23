@@ -1,0 +1,4 @@
+﻿model,IID_acc,IID_best_round,IID_rounds,IID_final_loss,IID_early_stop,α=1.0_acc,α=1.0_best_round,α=1.0_rounds,α=1.0_final_loss,α=1.0_early_stop,α=0.3_acc,α=0.3_best_round,α=0.3_rounds,α=0.3_final_loss,α=0.3_early_stop,α=0.1_acc,α=0.1_best_round,α=0.1_rounds,α=0.1_final_loss,α=0.1_early_stop,iid_to_0.1_drop_rel%,iid_to_0.1_drop_pp
+SqueezeNet,80.3,16,20,0.7203,no,76.8,18,20,0.7938,no,75.5,19,20,0.8950,no,67.8,18,20,1.1640,no,15.6,12.5
+MobileNetV3,78.7,13,18,0.9850,yes,76.3,15,20,1.1307,no,73.4,17,20,1.2207,no,67.6,18,20,1.3304,no,14.1,11.1
+ResNet18,85.0,17,20,0.9459,no,83.6,12,16,0.9386,yes,82.9,14,19,0.9428,yes,79.9,14,19,1.0383,yes,6.0,5.1

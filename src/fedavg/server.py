@@ -113,6 +113,7 @@ def run_server(config: dict[str, Any]) -> str:
                         "train_loss": meta.get("train_loss", ""),
                         "train_time": meta.get("train_time", ""),
                         "samples": meta.get("samples", ""),
+                        "peak_memory_mb": meta.get("peak_memory_mb", ""),
                         "bytes_sent": client.bytes_sent,
                         "bytes_recv": client.bytes_recv,
                         "status": meta.get("status", "ok"),
@@ -229,6 +230,9 @@ def _client_visible_config(config: dict[str, Any]) -> dict[str, Any]:
         "local_epochs": config["local_epochs"],
         "seed": config["seed"],
         "lr": config.get("lr", 0.05),
+        "momentum": config.get("momentum", 0.9),
+        "weight_decay": config.get("weight_decay", 0.0),
+        "optimizer": config.get("optimizer", "sgd"),
         "partition": config["partition"],
         "data": config["data"],
     }

@@ -98,6 +98,7 @@ def run_client(config: dict[str, Any], client_id: str, client_index: int | None 
                 "samples": int(stats["samples"]),          # 给 fedavg 当加权系数 n_k
                 "train_loss": stats["train_loss"],
                 "train_time": stats["train_time"],
+                "peak_memory_mb": stats.get("peak_memory_mb", 0.0),
                 "status": "ok",
             }
             # Pi 专用：附带温度 / 是否被降频，便于服务器端关联硬件状况。

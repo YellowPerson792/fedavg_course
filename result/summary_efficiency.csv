@@ -1,0 +1,4 @@
+﻿model,parameters,params_millions,comm_per_client_mb,comm_total_mb,acc_10k_iid,acc_50k_iid,acc_50k_alpha_0.1,train_time_per_round_50k_s,rounds_to_90pct_max,best_lr,best_local_epochs
+SqueezeNet,1235386,1.2M,9.4,18.9,62.4,80.3,67.8,225,6,0.005611516415334507,5
+MobileNetV3,2542856,2.5M,19.4,38.8,61.5,78.7,67.6,119,3,0.029106359131330698,3
+ResNet18,11173962,11.2M,85.3,170.5,69.0,85.0,79.9,88,3,0.04622589001020832,2

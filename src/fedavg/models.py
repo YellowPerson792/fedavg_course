@@ -10,6 +10,8 @@
   - tinycnn_mnist : 体积小、收敛快，作为基线做完整对比矩阵。
   - dscnn_cifar   : 用 depthwise-separable 卷积大幅压参，CIFAR 上仍跑得动。
   - simplecnn_cifar: 朴素 VGG 风格，参数较多，作为对比基线。
+  - squeezenet_cifar / mobilenetv3_cifar / resnet18_cifar:
+    torchvision 模型改造成 CIFAR-10 输入，用于树莓派效率对比。
 """
 
 from __future__ import annotations
@@ -129,6 +131,65 @@ class SimpleCNNCifar(nn.Module):
         return self.net(x)
 
 
+class SqueezeNetCifar(nn.Module):
+    """SqueezeNet 1.0 adapted for CIFAR-10 (32x32), about 1.2M parameters."""
+
+    def __init__(self, num_classes: int = 10) -> None:
+        super().__init__()
+        import torchvision
+
+        model = torchvision.models.squeezenet1_0(weights=None)
+        model.features[0] = nn.Conv2d(3, 96, kernel_size=3, stride=1, padding=1)
+        model.features[2] = nn.MaxPool2d(kernel_size=3, stride=1, padding=1)
+        model.classifier[1] = nn.Conv2d(512, num_classes, kernel_size=1)
+        self.model = model
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        return torch.flatten(self.model(x), 1)
+
+
+class MobileNetV3SmallCifar(nn.Module):
+    """MobileNetV3-Small adapted for CIFAR-10 (32x32), about 2.5M parameters."""
+
+    def __init__(self, num_classes: int = 10) -> None:
+        super().__init__()
+        import torchvision
+
+        model = torchvision.models.mobilenet_v3_small(weights=None)
+        old_conv = model.features[0][0]
+        model.features[0][0] = nn.Conv2d(
+            old_conv.in_channels,
+            old_conv.out_channels,
+            kernel_size=old_conv.kernel_size,
+            stride=1,
+            padding=old_conv.padding,
+            bias=old_conv.bias,
+        )
+        in_features = model.classifier[-1].in_features
+        model.classifier[-1] = nn.Linear(in_features, num_classes)
+        self.model = model
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        return self.model(x)
+
+
+class ResNet18Cifar(nn.Module):
+    """ResNet-18 adapted for CIFAR-10 (32x32), about 11.7M parameters."""
+
+    def __init__(self, num_classes: int = 10) -> None:
+        super().__init__()
+        import torchvision
+
+        model = torchvision.models.resnet18(weights=None)
+        model.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1, bias=False)
+        model.maxpool = nn.Identity()
+        model.fc = nn.Linear(model.fc.in_features, num_classes)
+        self.model = model
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        return self.model(x)
+
+
 def build_model(name: str) -> nn.Module:
     """按配置 (config['model']) 字符串实例化模型。
 
@@ -142,4 +203,10 @@ def build_model(name: str) -> nn.Module:
         return DSCNNCifar()
     if name == "simplecnn_cifar":
         return SimpleCNNCifar()
+    if name == "squeezenet_cifar":
+        return SqueezeNetCifar()
+    if name == "mobilenetv3_cifar":
+        return MobileNetV3SmallCifar()
+    if name == "resnet18_cifar":
+        return ResNet18Cifar()
     raise ValueError(f"unknown model: {name}")

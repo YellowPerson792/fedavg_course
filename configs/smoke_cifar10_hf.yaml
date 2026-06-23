@@ -1,0 +1,27 @@
+dataset: cifar10
+model: dscnn_cifar
+rounds: 1
+num_clients: 2
+batch_size: 16
+local_epochs: 1
+seed: 42
+device: cpu
+lr: 0.03
+partition:
+  type: dirichlet
+  dirichlet_alpha: 0.3
+  quantity_ratios: [0.7, 0.3]
+data:
+  synthetic: false
+  train_limit: 64
+  test_limit: 32
+server:
+  host: 127.0.0.1
+  bind_host: 127.0.0.1
+  port: 9003
+  min_clients: 2
+  timeout_seconds: 180
+run:
+  dir: runs
+  name: smoke-cifar10-hf
+  save_every_round: true

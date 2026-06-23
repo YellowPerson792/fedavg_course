@@ -1,0 +1,6 @@
+# PC 本地 CPU 客户端 —— 模拟树莓派 Pi127（风扇坏了），与 Pi99 组成双客户端。
+device: cpu
+server:
+  host: 127.0.0.1
+  port: 9000
+  timeout_seconds: 3600

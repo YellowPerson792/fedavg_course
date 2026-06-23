@@ -8,6 +8,8 @@ from collections.abc import Callable, Sequence
 COMMANDS = {
     "client": "fedavg.client",
     "matrix": "fedavg.experiment_matrix",
+    "optuna": "fedavg.optuna_sweep",
+    "run-experiments": "fedavg.run_experiments",
     "server": "fedavg.server",
     "simulate": "fedavg.simulate",
 }

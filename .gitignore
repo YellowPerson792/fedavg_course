@@ -217,6 +217,20 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
+# Dataset caches and sweep outputs
+dataset_cifar10/
+dataset_cifar10_arrow/
+dataset_mnist/
+sweeps/
+
+# Local assistant/tooling scratch data
+.claude/
+pi_files/
+result.zip
+task.txt
+pi_test_resnet18.py
+final_report/
+
 # FedAvg training artifacts
 checkpoints/
 

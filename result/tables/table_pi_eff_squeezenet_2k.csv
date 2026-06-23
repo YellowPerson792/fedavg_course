@@ -1,0 +1,3 @@
+﻿client,model,train_limit,rounds,acc_r1,acc_r5,train_avg,mem_peak,temp_final,throttled
+pi99,SqueezeNet,2000,5,9.8%,27.8%,1032s,1073MB,temp=53.0'C,throttled=0x0
+pc-cpu,SqueezeNet,2000,5,9.8%,27.8%,30s,954MB,,

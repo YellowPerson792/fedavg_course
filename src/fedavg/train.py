@@ -13,8 +13,17 @@ from __future__ import annotations
 import time
 from typing import Any
 
+import psutil
 import torch
 from torch import nn
+
+
+def _peak_rss_mb() -> float:
+    """Return current process RSS in MB, or 0.0 when it cannot be read."""
+    try:
+        return psutil.Process().memory_info().rss / (1024 * 1024)
+    except Exception:
+        return 0.0
 
 
 def train_local(
@@ -32,11 +41,19 @@ def train_local(
     # 经典 FedAvg 用普通 SGD + momentum；不用 Adam 是为了与论文对齐 + 减少状态量。
     # 注意：动量 buffer 是"本地"状态，每轮新模型一来就会被新 optimizer 重置——
     # 这是 FedAvg 与 FedOpt 的差异点之一，不向服务器同步动量。
-    optimizer = torch.optim.SGD(model.parameters(), lr=float(config.get("lr", 0.05)), momentum=0.9)
+    lr = float(config.get("lr", 0.05))
+    momentum = float(config.get("momentum", 0.9))
+    weight_decay = float(config.get("weight_decay", 0.0))
+    opt_name = str(config.get("optimizer", "sgd")).lower()
+    if opt_name == "adam":
+        optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
+    else:
+        optimizer = torch.optim.SGD(model.parameters(), lr=lr, momentum=momentum, weight_decay=weight_decay)
     epochs = int(config.get("local_epochs", 1))   # FedAvg 论文中的 E
 
     total_loss = 0.0   # 用于算 epoch 平均训练 loss
     total_seen = 0     # 累计样本数（注意是按样本不是按 batch 加权）
+    peak_rss = _peak_rss_mb()
     started = time.perf_counter()
 
     # 外层循环：在本地分区上重复 E 次完整遍历。
@@ -58,6 +75,7 @@ def train_local(
             batch_size = int(labels.numel())
             total_loss += float(loss.item()) * batch_size
             total_seen += batch_size
+            peak_rss = max(peak_rss, _peak_rss_mb())
 
     elapsed = time.perf_counter() - started
     return {
@@ -65,4 +83,5 @@ def train_local(
         "train_loss": total_loss / max(total_seen, 1),
         "train_time": elapsed,                       # 单位：秒，用来分析 Pi 的耗时
         "samples": float(total_seen),                # 服务器拿这个当 fedavg 的 n_k
+        "peak_memory_mb": peak_rss,                  # 训练期间进程峰值 RSS (MB)
     }
