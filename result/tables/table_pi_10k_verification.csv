@@ -1,0 +1,4 @@
+﻿model,params,rounds,final_acc,best_acc,acc_r1,acc_r2,acc_r3,pi99_time,pi99_mem,pi99_temp,pi99_throttled,pi127_time,pi127_mem,pi127_temp,pi127_throttled,speed_ratio_pi127_vs_pi99
+SqueezeNet,1.2M,3,44.1%,44.1%,19.6%,33.0%,44.1%,5131s/avg,1078MB,temp=54.5'C,throttled=0x0,5145s/avg,1078MB,temp=77.9'C,throttled=0xf0000,1.0x
+MobileNetV3,2.5M,3,51.0%,51.0%,9.8%,35.1%,51.0%,384s/avg,715MB,temp=51.6'C,throttled=0x0,442s/avg,704MB,temp=84.2'C,throttled=0xf0008,1.2x
+ResNet18,11.2M,3,54.0%,54.0%,9.9%,46.1%,54.0%,5255s/avg,1120MB,temp=53.5'C,throttled=0x0,10927s/avg,1112MB,temp=85.2'C,throttled=0xf0006,2.1x

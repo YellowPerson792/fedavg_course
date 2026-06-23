@@ -1,0 +1,4 @@
+﻿model,pi_acc_r1,pc_acc_r1,pi_acc_r2,pc_acc_r2,pi_acc_r3,pc_acc_r3,pi99_time_per_round,pi127_time_per_round,pc_train_total_s
+SqueezeNet,19.6%,11.8%,33.0%,34.0%,44.1%,43.2%,5131s,5145s,631
+MobileNetV3,9.8%,10.9%,35.1%,40.0%,51.0%,52.9%,384s,442s,389
+ResNet18,9.9%,12.0%,46.1%,41.6%,54.0%,55.0%,5255s,10927s,234

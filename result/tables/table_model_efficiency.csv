@@ -1,0 +1,4 @@
+﻿model,params_millions,comm_per_client_MB,comm_total_MB,acc_10k_iid,acc_50k_iid,acc_50k_alpha_0.1,train_per_round_50k_s,rounds_to_90pct_10k,rounds_to_90pct_50k
+SqueezeNet,1.2M,9.4,18.9,62.4%,80.3%,67.8%,225,9,6
+MobileNetV3,2.5M,19.4,38.8,61.5%,78.7%,67.6%,119,5,3
+ResNet18,11.2M,85.3,170.5,69.0%,85.0%,79.9%,88,6,3
